@@ -1,4 +1,4 @@
-# Pustaka — Katalog Buku (Fullstack)
+# Pustaka - Katalog Buku (Fullstack)
 
 Aplikasi katalog buku perpustakaan kampus. Frontend **React + Vite**, backend **NestJS** dengan struktur MVC. Entitas utama: **Buku** (`id`, `judul`, `penulis`, `penerbit`, `tahun`, `kategori`, `stok`).
 
