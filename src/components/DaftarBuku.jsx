@@ -1,7 +1,7 @@
 import KartuBuku from './KartuBuku'
 import KeadaanKosong from './KeadaanKosong'
 
-function DaftarBuku({ daftarBuku, totalData, onHapus }) {
+function DaftarBuku({ daftarBuku, totalData, onHapus, onEdit }) {
   return (
     <section className="daftar">
       <div className="daftar__kepala">
@@ -34,6 +34,7 @@ function DaftarBuku({ daftarBuku, totalData, onHapus }) {
               kategori={buku.kategori}
               stok={buku.stok}
               onHapus={onHapus}
+              onEdit={onEdit}
             />
           ))}
         </div>

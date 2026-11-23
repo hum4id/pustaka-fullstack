@@ -22,3 +22,6 @@ dist-ssr
 *.njsproj
 *.sln
 *.sw?
+
+# Variabel lingkungan lokal (contoh ada di .env.example)
+.env

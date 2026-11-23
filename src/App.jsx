@@ -6,7 +6,7 @@ import PencarianBuku from './components/PencarianBuku'
 import DaftarBuku from './components/DaftarBuku'
 import Footer from './components/Footer'
 import { KATEGORI } from './data/bukuAwal'
-import { ambilSemuaBuku, simpanBuku, hapusBukuById } from './services/bukuService'
+import { ambilSemuaBuku, simpanBuku, ubahBuku, hapusBukuById } from './services/bukuService'
 import './App.css'
 
 function App() {
@@ -15,6 +15,7 @@ function App() {
   const [galat, setGalat] = useState('')
   const [kataKunci, setKataKunci] = useState('')
   const [kategoriAktif, setKategoriAktif] = useState('Semua')
+  const [bukuDiedit, setBukuDiedit] = useState(null)
 
   // Ambil data saat aplikasi pertama kali dibuka (nanti: GET /api/buku)
   useEffect(() => {
@@ -28,6 +29,18 @@ function App() {
     try {
       const tersimpan = await simpanBuku(bukuBaru)
       setDaftarBuku((sebelumnya) => [tersimpan, ...sebelumnya])
+    } catch (error) {
+      setGalat(error.message)
+    }
+  }
+
+  const ubahBukuTersimpan = async (id, perubahan) => {
+    try {
+      const terbaru = await ubahBuku(id, perubahan)
+      setDaftarBuku((sebelumnya) =>
+        sebelumnya.map((buku) => (buku.id === id ? { ...buku, ...terbaru } : buku)),
+      )
+      setBukuDiedit(null)
     } catch (error) {
       setGalat(error.message)
     }
@@ -61,7 +74,13 @@ function App() {
 
         <div className="layout">
           <aside className="layout__samping">
-            <FormBuku daftarKategori={KATEGORI} onTambah={tambahBuku} />
+            <FormBuku
+              daftarKategori={KATEGORI}
+              onTambah={tambahBuku}
+              bukuDiedit={bukuDiedit}
+              onUbah={ubahBukuTersimpan}
+              onBatalEdit={() => setBukuDiedit(null)}
+            />
           </aside>
 
           <div className="layout__utama">
@@ -75,7 +94,7 @@ function App() {
             {memuat ? (
               <p className="memuat">Memuat katalog…</p>
             ) : (
-              <DaftarBuku daftarBuku={bukuTampil} totalData={daftarBuku.length} onHapus={hapusBuku} />
+              <DaftarBuku daftarBuku={bukuTampil} totalData={daftarBuku.length} onHapus={hapusBuku} onEdit={setBukuDiedit} />
             )}
           </div>
         </div>

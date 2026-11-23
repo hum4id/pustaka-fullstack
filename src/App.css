@@ -99,14 +99,22 @@
 .tombol:hover { background: #33302b; }
 .tombol:active { transform: scale(.985); }
 
-/* ===== Tombol hapus pada kartu ===== */
-.kartu__hapus { position: absolute; bottom: 14px; right: 14px; width: 30px; height: 30px; border-radius: 8px; border: 0;
+/* ===== Tombol aksi pada kartu (ubah & hapus) ===== */
+.kartu__aksi { position: absolute; bottom: 14px; right: 14px; display: flex; gap: 4px; }
+.kartu__ubah, .kartu__hapus { width: 30px; height: 30px; border-radius: 8px; border: 0;
   background: transparent; display: grid; place-items: center; opacity: 0; transition: opacity .15s ease, background .15s ease; }
-.kartu__hapus svg { width: 15px; height: 15px; fill: none; stroke: var(--muted); stroke-width: 1.8; stroke-linecap: round; }
-.kartu:hover .kartu__hapus, .kartu__hapus:focus-visible { opacity: 1; }
-.kartu__hapus:hover { background: var(--accent-soft); }
-.kartu__hapus:hover svg { stroke: var(--accent); }
-@media (hover: none) { .kartu__hapus { opacity: 1; } }
+.kartu__ubah svg, .kartu__hapus svg { width: 15px; height: 15px; fill: none; stroke: var(--muted); stroke-width: 1.8; stroke-linecap: round; stroke-linejoin: round; }
+.kartu:hover .kartu__ubah, .kartu:hover .kartu__hapus,
+.kartu__ubah:focus-visible, .kartu__hapus:focus-visible { opacity: 1; }
+.kartu__ubah:hover, .kartu__hapus:hover { background: var(--accent-soft); }
+.kartu__ubah:hover svg, .kartu__hapus:hover svg { stroke: var(--accent); }
+@media (hover: none) { .kartu__ubah, .kartu__hapus { opacity: 1; } }
+
+/* ===== Aksi pada formulir (tambah/ubah) ===== */
+.form__aksi { display: flex; gap: 8px; }
+.form__aksi .tombol { flex: 1; }
+.tombol--sekunder { background: transparent; color: var(--ink); border: 1px solid var(--line-strong); }
+.tombol--sekunder:hover { background: var(--accent-soft); }
 
 /* ===== Keadaan kosong (conditional rendering) ===== */
 .kosong { border: 1px dashed var(--line-strong); border-radius: var(--radius); padding: 72px 24px; text-align: center;

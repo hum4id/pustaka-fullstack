@@ -16,6 +16,13 @@ export async function simpanBuku(bukuBaru) {
   return { id: `bk-${Date.now()}`, ...bukuBaru }
 }
 
+export async function ubahBuku(id, perubahan) {
+  if (pakaiBackend) {
+    return request(`/buku/${id}`, { method: 'PATCH', body: JSON.stringify(perubahan) })
+  }
+  return { id, ...perubahan }
+}
+
 export async function hapusBukuById(id) {
   if (pakaiBackend) return request(`/buku/${id}`, { method: 'DELETE' })
   return null

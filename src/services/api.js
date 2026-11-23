@@ -9,7 +9,15 @@ export async function request(path, options = {}) {
     ...options,
   })
   if (!response.ok) {
-    throw new Error(`Permintaan ${options.method || 'GET'} ${path} gagal (${response.status})`)
+    // Ambil pesan error dari body backend (mis. NotFound/Conflict/Validation) bila ada.
+    let pesan = `Permintaan ${options.method || 'GET'} ${path} gagal (${response.status})`
+    try {
+      const body = await response.json()
+      if (body?.message) pesan = Array.isArray(body.message) ? body.message.join(', ') : body.message
+    } catch {
+      // body kosong / bukan JSON — pakai pesan default
+    }
+    throw new Error(pesan)
   }
   return response.status === 204 ? null : response.json()
 }

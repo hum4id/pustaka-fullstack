@@ -1,0 +1,76 @@
+### File uji endpoint untuk ekstensi VS Code "REST Client" (humao.rest-client).
+### Jalankan backend lebih dulu: npm run start:dev
+### Klik "Send Request" di atas tiap blok ###.
+
+@host = http://localhost:3001/api
+
+### 1. GET semua buku — mengembalikan seluruh katalog (200 OK)
+GET {{host}}/buku
+
+### 2. GET satu buku berdasarkan id (200 OK)
+GET {{host}}/buku/bk-001
+
+### 3. GET buku yang tidak ada — SKENARIO ERROR 1 (404 Not Found)
+GET {{host}}/buku/bk-999
+
+### 4. POST tambah buku baru (201 Created)
+POST {{host}}/buku
+Content-Type: application/json
+
+{
+  "judul": "Negeri 5 Menara",
+  "penulis": "Ahmad Fuadi",
+  "penerbit": "Gramedia Pustaka Utama",
+  "tahun": 2009,
+  "kategori": "Fiksi",
+  "stok": 5
+}
+
+### 5. POST buku duplikat (judul + penulis sama) — SKENARIO ERROR 2 (409 Conflict)
+POST {{host}}/buku
+Content-Type: application/json
+
+{
+  "judul": "Laskar Pelangi",
+  "penulis": "Andrea Hirata",
+  "penerbit": "Bentang Pustaka",
+  "tahun": 2005,
+  "kategori": "Fiksi",
+  "stok": 3
+}
+
+### 6. POST data tidak valid — uji ValidationPipe (400 Bad Request)
+### judul < 2 huruf, tahun masa depan, kategori di luar daftar, stok negatif
+POST {{host}}/buku
+Content-Type: application/json
+
+{
+  "judul": "A",
+  "penulis": "",
+  "tahun": 3000,
+  "kategori": "Komik",
+  "stok": -1
+}
+
+### 7. PATCH ubah buku (200 OK) — ubah stok & penerbit saja
+PATCH {{host}}/buku/bk-003
+Content-Type: application/json
+
+{
+  "stok": 10,
+  "penerbit": "Pearson"
+}
+
+### 8. PATCH buku yang tidak ada — SKENARIO ERROR (404 Not Found)
+PATCH {{host}}/buku/bk-999
+Content-Type: application/json
+
+{
+  "stok": 1
+}
+
+### 9. DELETE buku (200 OK)
+DELETE {{host}}/buku/bk-005
+
+### 10. DELETE buku yang tidak ada — SKENARIO ERROR (404 Not Found)
+DELETE {{host}}/buku/bk-999
